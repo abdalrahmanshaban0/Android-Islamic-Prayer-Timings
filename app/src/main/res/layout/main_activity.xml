@@ -58,7 +58,7 @@
 
                 <TextView
                     android:id="@+id/fajr"
-                    android:layout_width="278dp"
+                    android:layout_width="185dp"
                     android:layout_height="wrap_content"
                     android:textAlignment="viewStart"
                     android:textSize="34sp" />
@@ -68,7 +68,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="الفجر:"
-                    android:textAlignment="viewEnd"
                     android:textSize="34sp" />
             </LinearLayout>
 
@@ -80,7 +79,7 @@
 
                 <TextView
                     android:id="@+id/shrook"
-                    android:layout_width="278dp"
+                    android:layout_width="186dp"
                     android:layout_height="wrap_content"
                     android:textAlignment="viewStart"
                     android:textSize="34sp" />
@@ -101,7 +100,7 @@
 
                 <TextView
                     android:id="@+id/duhr"
-                    android:layout_width="247dp"
+                    android:layout_width="372dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textAlignment="viewStart"
@@ -109,7 +108,7 @@
 
                 <TextView
                     android:id="@+id/textView10"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="الظهر:"
@@ -124,7 +123,7 @@
 
                 <TextView
                     android:id="@+id/asr"
-                    android:layout_width="254dp"
+                    android:layout_width="372dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textAlignment="viewStart"
@@ -132,7 +131,7 @@
 
                 <TextView
                     android:id="@+id/textView12"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="العصر:"
@@ -147,7 +146,7 @@
 
                 <TextView
                     android:id="@+id/maghrib"
-                    android:layout_width="270dp"
+                    android:layout_width="370dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textAlignment="viewStart"
@@ -155,7 +154,7 @@
 
                 <TextView
                     android:id="@+id/textView14"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="المغرب:"
@@ -169,14 +168,14 @@
 
                 <TextView
                     android:id="@+id/isha"
-                    android:layout_width="266dp"
+                    android:layout_width="372dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textSize="34sp" />
 
                 <TextView
                     android:id="@+id/textView16"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="العشاء:"
