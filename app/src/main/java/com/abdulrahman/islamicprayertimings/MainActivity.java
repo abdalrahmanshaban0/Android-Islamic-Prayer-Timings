@@ -1,5 +1,6 @@
 package com.abdulrahman.islamicprayertimings;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -9,6 +10,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,15 +32,19 @@ import java.util.concurrent.Executors;
 
 import javax.net.ssl.HttpsURLConnection;
 
+@SuppressLint("UseSwitchCompatOrMaterialCode")
 public class MainActivity extends AppCompatActivity {
     private String country = "Egypt", city = "Cairo";
     private EditText Country, City;
+    private Switch sw;
+    private boolean S24 = false;
     private Button update;
     private static final String aladhanAPI = "https://api.aladhan.com/v1/timingsByCity?";
     private ExecutorService executorService; // Executor for background tasks
     private Handler mainHandler; // Handler to update the UI thread
     private TextView fajr, shrook, duhr, asr, maghrib, isha;
-    public int[] prayerTimings;
+    private int[] prayerTimingsSeconds;
+    private String[] prayerTimings;
 
     // SharedPreferences name and keys
     private static final String PREFS_NAME = "PrayerAppPrefs";
@@ -88,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
         Country = findViewById(R.id.Country);
         City = findViewById(R.id.City);
         update = findViewById(R.id.button);
+        sw = findViewById(R.id.switch1);
     }
 
     private void setupListeners() {
@@ -95,6 +102,14 @@ public class MainActivity extends AppCompatActivity {
             // Save the entered values when the update button is clicked
             savePreferences();
             getTimings();
+        });
+        // Set an OnCheckedChangeListener to handle the switch state change
+        sw.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            S24 = isChecked;
+            SharedPreferences sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean("time_format", S24);
+            editor.apply();
         });
     }
 
@@ -108,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(KEY_COUNTRY, country);
         editor.putString(KEY_CITY, city);
+        editor.putBoolean("time_format", S24);
         editor.apply();
     }
 
@@ -118,6 +134,8 @@ public class MainActivity extends AppCompatActivity {
         city = sharedPreferences.getString(KEY_CITY, "Cairo");
         Country.setText(country);
         City.setText(city);
+        S24 = sharedPreferences.getBoolean("time_format", false);
+        sw.setChecked(S24);
 
         // Load prayer timings
         fajr.setText(sharedPreferences.getString(KEY_FAJR, ""));
@@ -144,7 +162,26 @@ public class MainActivity extends AppCompatActivity {
     private void showToast(String message) {
         runOnUiThread(() -> Toast.makeText(this, message, Toast.LENGTH_SHORT).show());
     }
-
+    private String convert24HourTo12Hour(String time24) {
+        // Check if the input time is valid
+        if (time24 == null || !time24.matches("([01]?[0-9]|2[0-3]):[0-5][0-9]")) {
+            throw new IllegalArgumentException("Invalid 24-hour time format");
+        }
+        // Split the input string into hour and minute
+        String[] timeParts = time24.split(":");
+        int hour = Integer.parseInt(timeParts[0]);
+        String minute = timeParts[1];
+        // Determine AM or PM
+        String period = hour < 12 ? "AM" : "PM";
+        // Convert the hour to 12-hour format
+        if (hour == 0) {
+            hour = 12; // Midnight case
+        } else if (hour > 12) {
+            hour -= 12; // Convert hours greater than 12 to 12-hour format
+        }
+        // Format the time in 12-hour format with AM/PM
+        return hour + ":" + minute + " " + period;
+    }
     private void getTimings() {
         executorService.execute(() -> {
             try {
@@ -169,6 +206,7 @@ public class MainActivity extends AppCompatActivity {
                 JSONObject jsonResponse = new JSONObject(response.toString());
                 JSONObject data = jsonResponse.getJSONObject("data");
                 JSONObject timings = data.getJSONObject("timings");
+
                 String Fajr = timings.getString("Fajr");
                 String Shrook = timings.getString("Sunrise");
                 String Duhr = timings.getString("Dhuhr");
@@ -176,28 +214,47 @@ public class MainActivity extends AppCompatActivity {
                 String Maghrib = timings.getString("Maghrib");
                 String Isha = timings.getString("Isha");
 
+                prayerTimings = new String[6];
+                if(!S24){
+                    prayerTimings[0] = convert24HourTo12Hour(Fajr);
+                    prayerTimings[1] = convert24HourTo12Hour(Shrook);
+                    prayerTimings[2] = convert24HourTo12Hour(Duhr);
+                    prayerTimings[3] = convert24HourTo12Hour(Asr);
+                    prayerTimings[4] = convert24HourTo12Hour(Maghrib);
+                    prayerTimings[5] = convert24HourTo12Hour(Isha);
+                }
+                else{
+                    prayerTimings[0] = Fajr;
+                    prayerTimings[1] = Shrook;
+                    prayerTimings[2] = Duhr;
+                    prayerTimings[3] = Asr;
+                    prayerTimings[4] = Maghrib;
+                    prayerTimings[5] = Isha;
+                }
+
                 // Save prayer timings to SharedPreferences
-                savePrayerTimings(Fajr, Shrook, Duhr, Asr, Maghrib, Isha);
+                savePrayerTimings(prayerTimings[0], prayerTimings[1], prayerTimings[2], prayerTimings[3], prayerTimings[4], prayerTimings[5]);
 
                 mainHandler.post(() -> {
                     String[] temp = {Fajr, Shrook, Duhr, Asr, Maghrib, Isha};
-                    prayerTimings = new int[6];
+                    prayerTimingsSeconds = new int[6];
                     for (int i = 0; i < 6; i++) {
                         String[] timeParts = temp[i].split(":");
                         int hours = Integer.parseInt(timeParts[0]);
                         int minutes = Integer.parseInt(timeParts[1]);
                         int totalSeconds = (hours * 3600) + (minutes * 60);
-                        prayerTimings[i] = totalSeconds;
+                        prayerTimingsSeconds[i] = totalSeconds;
                     }
 
-                    fajr.setText(Fajr);
-                    shrook.setText(Shrook);
-                    duhr.setText(Duhr);
-                    asr.setText(Asr);
-                    maghrib.setText(Maghrib);
-                    isha.setText(Isha);
+                    fajr.setText(prayerTimings[0]);
+                    shrook.setText(prayerTimings[1]);
+                    duhr.setText(prayerTimings[2]);
+                    asr.setText(prayerTimings[3]);
+                    maghrib.setText(prayerTimings[4]);
+                    isha.setText(prayerTimings[5]);
 
                     Intent serviceIntent = new Intent(this, NextService.class);
+                    serviceIntent.putExtra("prayer_timings_seconds", prayerTimingsSeconds);
                     serviceIntent.putExtra("prayer_timings", prayerTimings);
                     startService(serviceIntent);
                 });

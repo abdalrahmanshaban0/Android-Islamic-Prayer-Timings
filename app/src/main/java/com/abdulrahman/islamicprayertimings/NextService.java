@@ -17,7 +17,8 @@ import java.util.Calendar;
 
 
 public class NextService extends Service {
-    private int[] prayerTimings;
+    private int[] prayerTimingsSeconds;
+    private String[] prayerTimings;
     private NotificationManager notificationManager;
     private NotificationCompat.Builder notificationBuilder; // Store the builder
     private static final int NOTIFICATION_ID = 1;
@@ -26,9 +27,10 @@ public class NextService extends Service {
     @SuppressLint("ForegroundServiceType")
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        prayerTimings = intent.getIntArrayExtra("prayer_timings");
-        assert prayerTimings != null;
-        Log.d("MyService", "Received seconds: " + prayerTimings.length);
+        prayerTimingsSeconds = intent.getIntArrayExtra("prayer_timings_seconds");
+        prayerTimings = intent.getStringArrayExtra("prayer_timings");
+        assert prayerTimingsSeconds != null;
+        Log.d("MyService", "Received seconds: " + prayerTimingsSeconds.length);
 
         notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         createNotificationChannel();
@@ -38,7 +40,7 @@ public class NextService extends Service {
                 .setContentTitle("Next pray")
                 .setContentText("Time remaining: 0 seconds")
                 .setOngoing(true)
-                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setSmallIcon(R.mipmap.ic_launcher)
                 .setOnlyAlertOnce(true); // Prevents repeated sounds
         startForeground(NOTIFICATION_ID, notificationBuilder.build());
 
@@ -56,11 +58,13 @@ public class NextService extends Service {
     }
 
 
-    private void updateNotification(String s, String currentTimerValue) {
+    private void updateNotification(String s, int nextIdx, String currentTimerValue) {
         // Update the existing notification
-        notificationBuilder.setContentTitle(s);
+        notificationBuilder.setContentTitle(s + " " + prayerTimings[nextIdx]);
         notificationBuilder.setContentText("بعد  " + currentTimerValue);
         notificationManager.notify(NOTIFICATION_ID, notificationBuilder.build());
+        notificationBuilder.setWhen(0);
+        notificationBuilder.setShowWhen(false);
     }
 
     @Override
@@ -73,7 +77,12 @@ public class NextService extends Service {
         int minutes = (totalSeconds % 3600) / 60;
         int seconds = totalSeconds % 60;
 
-        return String.format("%02d:%02d:%02d", hours, minutes, seconds);
+        // If hours are zero, format without the hour part
+        if (hours == 0) {
+            return String.format("%02d:%02d", minutes, seconds);
+        } else {
+            return String.format("%02d:%02d:%02d", hours, minutes, seconds);
+        }
     }
     private void setNext() {
         final Handler handler = new Handler();
@@ -90,10 +99,10 @@ public class NextService extends Service {
                 String[] temp = {"صلاة الفجر", "الشروق", "صلاة الظهر", "صلاة العصر", "صلاة المغرب", "صلاة العشاء"};
                 for (int i = 0; i < 6; i++) {
                     if (i == 0) {
-                        nextVal = prayerTimings[i];
+                        nextVal = prayerTimingsSeconds[i];
                     }
-                    if (prayerTimings[i] > curr) {
-                        nextVal = prayerTimings[i];
+                    if (prayerTimingsSeconds[i] > curr) {
+                        nextVal = prayerTimingsSeconds[i];
                         nextIdx = i;
                         break;
                     }
@@ -105,7 +114,7 @@ public class NextService extends Service {
                 if (dff > 0) {
                     dff--;
                     String time = secondsToHHMMSS(dff);
-                    updateNotification(temp[nextIdx], time);
+                    updateNotification(temp[nextIdx], nextIdx, time);
                     handler.postDelayed(this, 1000);
                 } else {
                     setNext();
