@@ -2,7 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:layoutDirection="ltr"
+    android:textDirection="ltr"
+    tools:context=".MainActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -51,7 +54,8 @@
                     android:id="@+id/switch1"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
-                    android:text="24-Hour Format" />
+                    android:text="24-Hour Format"
+                    tools:ignore="UseSwitchCompatOrMaterialXml" />
 
             </LinearLayout>
 
@@ -73,7 +77,8 @@
                     android:id="@+id/textView3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="الفجر:"
+                    android:text="الفجر"
+                    android:textAlignment="viewEnd"
                     android:textSize="28sp" />
             </LinearLayout>
 
@@ -94,7 +99,8 @@
                     android:id="@+id/textView7"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="الشروق:"
+                    android:text="الشروق"
+                    android:textAlignment="viewEnd"
                     android:textSize="28sp" />
             </LinearLayout>
 
@@ -117,7 +123,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="الظهر:"
+                    android:text="الظهر"
+                    android:textAlignment="viewEnd"
                     android:textSize="28sp" />
             </LinearLayout>
 
@@ -140,7 +147,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="العصر:"
+                    android:text="العصر"
+                    android:textAlignment="viewEnd"
                     android:textSize="28sp" />
             </LinearLayout>
 
@@ -163,7 +171,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="المغرب:"
+                    android:text="المغرب"
+                    android:textAlignment="viewEnd"
                     android:textSize="28sp" />
             </LinearLayout>
 
@@ -177,6 +186,7 @@
                     android:layout_width="372dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:textAlignment="viewStart"
                     android:textSize="28sp" />
 
                 <TextView
@@ -184,7 +194,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="العشاء:"
+                    android:text="العشاء"
+                    android:textAlignment="viewEnd"
                     android:textSize="28sp" />
             </LinearLayout>
 
@@ -205,7 +216,8 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="5dp"
                 android:paddingBottom="15dp"
-                android:text="ملاحظة: يتم التحديث تلقائيًا عند فتح التطبيق."
+                android:text="ملاحظة: يتم التحديث تلقائيًا عند فتح التطبيق"
+                android:textAlignment="viewEnd"
                 android:textSize="18sp" />
 
         </LinearLayout>
