@@ -1,4 +1,18 @@
 <resources>
     <string name="app_name">Islamic Prayer Timings</string>
-    <string name="mwakiet_salah">مواقيت الصلاة</string>
+    <string name="mwakiet_salah">Prayer Timings</string>
+    <string name="enter_country_egypt">Country</string>
+    <string name="enter_city_cairo">City</string>
+    <string name="_24_hour_format">24-Hour Format</string>
+    <string name="Fajr">Fajr</string>
+    <string name="Sunrise">Sunrise</string>
+    <string name="Dhuhr">Dhuhr</string>
+    <string name="Asr">Asr</string>
+    <string name="Maghrib">Maghrib</string>
+    <string name="Isha">Isha</string>
+    <string name="update_btn">Update</string>
+    <string name="update_note">Note: Adhan sound is recited by Mansour Al-Zahrani.</string>
+    <string name="after">After</string>
+    <string name="adhan_sound">Adhan sound</string>
+    <string name="timings_today">Today\'s Timings</string>
 </resources>

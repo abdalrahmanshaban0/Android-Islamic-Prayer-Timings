@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">مواقيت الصلاة</string>
+    <string name="mwakiet_salah">مواقيت الصلاة</string>
+    <string name="enter_country_egypt">الدولة (انجليزي)</string>
+    <string name="enter_city_cairo">المدينة (انجليزي)</string>
+    <string name="_24_hour_format">نظام 24 ساعة</string>
+    <string name="Fajr">الفجر</string>
+    <string name="Sunrise">الشروق</string>
+    <string name="Dhuhr">الظهر</string>
+    <string name="Asr">العصر</string>
+    <string name="Maghrib">المغرب</string>
+    <string name="Isha">العشاء</string>
+    <string name="update_btn">تحديث</string>
+    <string name="update_note">ملاحظة: الأذان بصوت القارئ منصور الزهراني</string>
+    <string name="after">بعد</string>
+    <string name="adhan_sound">صوت الأذان</string>
+    <string name="timings_today">مواقيت اليوم</string>
+</resources>
