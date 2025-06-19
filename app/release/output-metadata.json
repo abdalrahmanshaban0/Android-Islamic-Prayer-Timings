@@ -4,7 +4,7 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.abdulrahman.islamicprayertimings",
+  "applicationId": "com.example.islamicprayertimings",
   "variantName": "release",
   "elements": [
     {
@@ -33,5 +33,5 @@
       ]
     }
   ],
-  "minSdkVersionForDexing": 24
+  "minSdkVersionForDexing": 21
 }

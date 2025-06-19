@@ -4,7 +4,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -16,6 +15,7 @@ import okhttp3.Call
 import okhttp3.Response
 import org.json.JSONObject
 import java.io.IOException
+import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity(){
   private val aladhanAPI = "https://api.aladhan.com/v1/timingsByCity?"

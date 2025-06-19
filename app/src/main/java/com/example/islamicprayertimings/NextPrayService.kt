@@ -5,7 +5,6 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
 import android.content.Intent
-import android.os.Build
 import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
@@ -30,14 +29,12 @@ class NextPrayService : Service() {
     super.onCreate()
     // Create notification channel
     notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-      val channel = NotificationChannel(
-        channelID,
-        "Prayer Notification Channel",
-        NotificationManager.IMPORTANCE_LOW
-      )
-      notificationManager.createNotificationChannel(channel)
-    }
+    val channel = NotificationChannel(
+      channelID,
+      "Prayer Notification Channel",
+      NotificationManager.IMPORTANCE_LOW
+    )
+    notificationManager.createNotificationChannel(channel)
 
     // Open the app when the user taps the notification
     val intentOpenApp = Intent(this, MainActivity::class.java)

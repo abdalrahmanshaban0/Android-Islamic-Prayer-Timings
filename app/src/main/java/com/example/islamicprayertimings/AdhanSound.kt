@@ -37,18 +37,10 @@ class AdhanSound : Service() {
     }
   }
 
-  override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-    return START_NOT_STICKY
-  }
-
-  override fun onBind(intent: Intent?): IBinder? {
-    return null
-  }
-
   override fun onDestroy() {
-    super.onDestroy()
     mediaPlayer?.release()
-    mediaPlayer = null
+    super.onDestroy()
   }
 
+  override fun onBind(intent: Intent?): IBinder? = null
 }
