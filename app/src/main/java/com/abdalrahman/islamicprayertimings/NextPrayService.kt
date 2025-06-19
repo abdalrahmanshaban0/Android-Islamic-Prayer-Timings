@@ -1,4 +1,4 @@
-package com.example.islamicprayertimings
+package com.abdalrahman.islamicprayertimings
 
 import android.app.NotificationChannel
 import android.app.NotificationManager

@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.islamicprayertimings"
+    namespace = "com.abdalrahman.islamicprayertimings"
     compileSdk = 35
 
     defaultConfig {

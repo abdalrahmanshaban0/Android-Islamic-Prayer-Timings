@@ -1,4 +1,4 @@
-package com.example.islamicprayertimings
+package com.abdalrahman.islamicprayertimings
 
 import android.app.Service
 import android.content.Intent

@@ -1,4 +1,4 @@
-package com.example.islamicprayertimings
+package com.abdalrahman.islamicprayertimings
 
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -15,7 +15,6 @@ import okhttp3.Call
 import okhttp3.Response
 import org.json.JSONObject
 import java.io.IOException
-import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity(){
   private val aladhanAPI = "https://api.aladhan.com/v1/timingsByCity?"
